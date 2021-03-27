@@ -1,0 +1,6 @@
+About:
+This is Lattay's Flee The Dungeon, a Game Jam like game made for fun.
+
+License:
+This game have been written in C with Raylib (see www.raylib.com).
+It is free and open-source, published under MIT Lisence.
