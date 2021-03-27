@@ -1,0 +1,16 @@
+- [X] Minimal main menu
+- [X] About screen
+- [X] Minimal game over menu
+- [X] Player movements
+- [X] Player casting
+- [X] Level reset
+- [X] Ennemy basic movements
+- [X] Minimal HUD
+- [ ] Loading a level from a file
+- [ ] Making several ennemies possible
+- [ ] Chaining levels
+- [ ] Saving progress somewhere
+- [ ] Nice looking HUD
+- [ ] Nice looking menu
+- [ ] Nice looking entities and levels
+- [ ] Help screen explaining ennemies specificities

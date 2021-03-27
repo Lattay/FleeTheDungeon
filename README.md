@@ -24,3 +24,7 @@ The monsters may have different movement patterns but they are predictable.
 You have a magic item that can create boulders/ice bloc/something else that will block the path of the monsters.
 
 Get from one door to another without getting caught by monsters.
+
+## Road map
+
+[See here what is comming](TODO.md)
