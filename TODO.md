@@ -4,13 +4,22 @@
 - [X] Player movements
 - [X] Player casting
 - [X] Level reset
-- [X] Ennemy basic movements
+- [X] Enemy basic movements
 - [X] Minimal HUD
-- [ ] Loading a level from a file
-- [ ] Making several ennemies possible
-- [ ] Chaining levels
+- [X] Loading a level from a file
+- [X] Making several enemies possible
+- [ ] Adding more enemies
+- [ ] Nice looking entities and levels
+- [ ] Writing a few actual levels
+- [X] Chaining levels
+- [ ] Scoring
 - [ ] Saving progress somewhere
 - [ ] Nice looking HUD
 - [ ] Nice looking menu
-- [ ] Nice looking entities and levels
-- [ ] Help screen explaining ennemies specificities
+- [ ] Writing better levels
+- [ ] Help screen explaining enemies specificities
+- [ ] Polishing
+    - [ ] Balancing levels
+    - [ ] Sound effects
+    - [ ] Particles
+    - [ ] Intro animation

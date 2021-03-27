@@ -21,6 +21,7 @@ int main(void)
   GameState* state = &menu_state;
 
   GameData game_data;
+  game_data.max_level = 3;
   init_camera(&game_data.cam, 600, 600);
 
   state->init(&game_data);

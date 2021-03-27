@@ -1,7 +1,13 @@
 #include "level_transition.h"
 
-void level_transition_init(GameData* data){
+int next;
 
+void level_transition_init(GameData* data){
+  if(data->next_level > data->max_level){
+    next = -1;
+  } else {
+    next = data->next_level;
+  }
 }
 
 void level_transition_draw(void){
@@ -9,7 +15,11 @@ void level_transition_draw(void){
 }
 
 StateName level_transition_update(void){
-  return PLAY;
+  if(next <= 0){
+    return END;
+  } else {
+    return PLAY;
+  }
 }
 
 void level_transition_suspend(void){

@@ -32,7 +32,7 @@ void menu_draw(void){
 
 StateName menu_update(void){
   if (button_pressed(&data->play_button)){
-    return PLAY;
+    return LEVEL_MENU;
   } else if (button_pressed(&data->about_button)){
     return CREDIT;
   }

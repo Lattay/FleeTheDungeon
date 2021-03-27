@@ -11,6 +11,7 @@ typedef enum {
   PLAY,
   DEATH,
   LEVEL_TRANSITION,
+  LEVEL_MENU,
   END,
   STATE_NUM,  // Not a state, but gives the number of states
   CLOSE,  // Special state, used to close the main loop
@@ -19,6 +20,7 @@ typedef enum {
 typedef struct {
   LSKCamera cam;
   int next_level;
+  int max_level;
 } GameData;
 
 typedef struct {
@@ -37,6 +39,7 @@ typedef struct {
 #include "play.h"
 #include "death.h"
 #include "level_transition.h"
+#include "level_menu.h"
 #include "end.h"
 
 int screenWidth = 600;
@@ -49,6 +52,7 @@ GameState* states[(int)STATE_NUM] = {
   &play_state,
   &death_state,
   &level_transition_state,
+  &level_menu_state,
   &end_state
 };
 #endif
