@@ -11,13 +11,16 @@ typedef struct {
   Color background;
 } LSKCamera;
 
-void init_camera(LSKCamera* cam, int width, int height);
-void update_camera(LSKCamera* cam);
-void camera_set_offset(LSKCamera* cam, int x, int y);
+void init_camera(LSKCamera * cam, int width, int height);
+void update_camera(LSKCamera * cam);
+void camera_set_offset(LSKCamera * cam, int x, int y);
 
-void camera_clear_background(LSKCamera* cam, Color background);
-void camera_draw_rectangle_v(LSKCamera* cam, Vector2 pos, Vector2 size, Color col);
-void camera_draw_centered_rect_v(LSKCamera* cam, Vector2 pos, Vector2 size, Color col);
-void camera_draw_circle_v(LSKCamera* cam, Vector2 pos, float radius, Color col);
+void camera_clear_background(LSKCamera * cam, Color background);
+void camera_draw_rectangle_v(LSKCamera * cam, Vector2 pos, Vector2 size,
+                             Color col);
+void camera_draw_centered_rect_v(LSKCamera * cam, Vector2 pos, Vector2 size,
+                                 Color col);
+void camera_draw_circle_v(LSKCamera * cam, Vector2 pos, float radius,
+                          Color col);
 
 #endif

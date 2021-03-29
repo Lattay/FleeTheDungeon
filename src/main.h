@@ -6,7 +6,7 @@
 #include "lsk_camera.h"
 
 typedef enum {
-  MENU=0,
+  MENU = 0,
   CREDIT,
   PLAY,
   DEATH,
@@ -25,10 +25,10 @@ typedef struct {
 
 typedef struct {
   StateName name;
-  void (*init)(GameData* data); // optional
-  StateName (*update)(void);
+  void (*init)(GameData * data);  // optional
+    StateName(*update) (void);
   void (*draw)(void);
-  void (*suspend)(void); // optional
+  void (*suspend)(void);  // optional
   // void (*free)(); // optional
 } GameState;
 

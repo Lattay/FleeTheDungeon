@@ -2,8 +2,8 @@
 #include "level.h"
 #include <raylib.h>
 
-const char* level_msg_error(int code){
-  switch(code){
+const char* level_msg_error(int code) {
+  switch (code) {
     case 1:
       return "File not found.";
     case 2:
@@ -13,25 +13,26 @@ const char* level_msg_error(int code){
   }
 }
 
-static void eat_spaces(FILE* f){
+static void eat_spaces(FILE * f) {
   int c;
   do {
     c = fgetc(f);
-  } while(c == ' ' || c == '\n' || c == '\r' || c == '\t');
-  if(c != EOF){
+  } while (c == ' ' || c == '\n' || c == '\r' || c == '\t');
+  if (c != EOF) {
     ungetc(c, f);
   }
 }
 
-int level_load(const char* filename, Level* data, Enemy** enemies, int* length, int* px, int* py){
+int level_load(const char* filename, Level * data, Enemy ** enemies,
+               int* length, int* px, int* py) {
   int res;
   FILE* f = fopen(filename, "r");
-  if(!f){
+  if (!f) {
     return 1;
   }
 
   res = fscanf(f, "PLAYER %d %d", px, py);
-  if(res <= 0){
+  if (res <= 0) {
     fclose(f);
     return 2;
   }
@@ -40,7 +41,7 @@ int level_load(const char* filename, Level* data, Enemy** enemies, int* length, 
   eat_spaces(f);
 
   res = fscanf(f, "ENEMIES %d", length);
-  if(res <= 0){
+  if (res <= 0) {
     fclose(f);
     return 2;
   }
@@ -49,10 +50,12 @@ int level_load(const char* filename, Level* data, Enemy** enemies, int* length, 
 
   *enemies = malloc(sizeof(Enemy) * *length);
 
-  for(int i = 0; i < *length; ++i){
+  for (int i = 0; i < *length; ++i) {
     Enemy* e = &((*enemies)[i]);
-    res = fscanf(f, "ENEMY %d (%d, %d)>(%d, %d)", &e->type, &e->x, &e->y, &e->dir_x, &e->dir_y);
-    if(res <= 0){
+    res =
+        fscanf(f, "ENEMY %d (%d, %d)>(%d, %d)", &e->type, &e->x, &e->y,
+               &e->dir_x, &e->dir_y);
+    if (res <= 0) {
       fclose(f);
       free(*enemies);
       return 2;
@@ -64,7 +67,7 @@ int level_load(const char* filename, Level* data, Enemy** enemies, int* length, 
   }
 
   res = fscanf(f, "MAP %d %d", &data->w, &data->h);
-  if(res <= 0){
+  if (res <= 0) {
     fclose(f);
     free(*enemies);
     return 2;
@@ -73,11 +76,11 @@ int level_load(const char* filename, Level* data, Enemy** enemies, int* length, 
 
   Tile* map = malloc(sizeof(Tile) * data->w * data->h);
 
-  for(int y = 0; y < data->h; ++y){
-    for(int x = 0; x < data->w; ++x){
+  for (int y = 0; y < data->h; ++y) {
+    for (int x = 0; x < data->w; ++x) {
       int d;
       res = fscanf(f, "%d", &d);
-      if(res <= 0){
+      if (res <= 0) {
         fclose(f);
         free(*enemies);
         free(map);
@@ -86,7 +89,7 @@ int level_load(const char* filename, Level* data, Enemy** enemies, int* length, 
 
       eat_spaces(f);
 
-      if(d <= NOT_A_TILE || d >= TILE_NUM){
+      if (d <= NOT_A_TILE || d >= TILE_NUM) {
         map[x + data->w * y] = WALL;
       } else {
         map[x + data->w * y] = d;

@@ -12,12 +12,12 @@ typedef struct {
 } EnemyType;
 
 static EnemyType enemy_types[] = {
-  {.try_move=&slime_try_move, .change_dir=&slime_change_dir},
-  {.try_move=&zombie_try_move, .change_dir=&zombie_change_dir},
+  {.try_move = &slime_try_move,.change_dir = &slime_change_dir},
+  {.try_move = &zombie_try_move,.change_dir = &zombie_change_dir},
 };
 
-void enemy_try_move(Enemy* e, bool first_try){
-  if(!first_try){
+void enemy_try_move(Enemy * e, bool first_try) {
+  if (!first_try) {
     enemy_types[e->type].change_dir(&e->dir_x, &e->dir_y);
   }
   enemy_types[e->type].try_move(e->x, e->y, e->dir_x, e->dir_y, &e->nx, &e->ny);

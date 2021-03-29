@@ -12,6 +12,6 @@ typedef struct {
   int dir_y;
 } Enemy;
 
-void enemy_try_move(Enemy* e, bool first_try);
+void enemy_try_move(Enemy * e, bool first_try);
 
 #endif

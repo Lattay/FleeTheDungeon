@@ -10,10 +10,10 @@ typedef struct {
   bool disabled;
 } LSKButton;
 
-void init_button(LSKButton* but, const char* text, int x, int y, int fontsize);
-void draw_button(LSKButton* but);
-bool button_pressed(LSKButton* but);
-void free_button(LSKButton* but);
+void init_button(LSKButton * but, const char* text, int x, int y, int fontsize);
+void draw_button(LSKButton * but);
+bool button_pressed(LSKButton * but);
+void free_button(LSKButton * but);
 
 typedef struct {
   char* text;
@@ -22,10 +22,10 @@ typedef struct {
   bool disabled;
 } LSKLabel;
 
-void init_label(LSKLabel* lab, const char* text, int x, int y, int fontsize);
-void draw_label(LSKLabel* lab);
-void free_label(LSKLabel* lab);
-void set_label(LSKLabel* lab, const char* text);
+void init_label(LSKLabel * lab, const char* text, int x, int y, int fontsize);
+void draw_label(LSKLabel * lab);
+void free_label(LSKLabel * lab);
+void set_label(LSKLabel * lab, const char* text);
 
 /* A label whose content is managed by the user */
 typedef struct {
@@ -37,9 +37,9 @@ typedef struct {
   bool disabled;
 } LSKManagedLabel;
 
-void init_mlabel(LSKManagedLabel* lab, int x, int y, int fontsize);
-void draw_mlabel(LSKManagedLabel* lab);
-void content_changed_mlabel(LSKManagedLabel* lab);
-void set_content_mlabel(LSKManagedLabel* lab, char* content);
+void init_mlabel(LSKManagedLabel * lab, int x, int y, int fontsize);
+void draw_mlabel(LSKManagedLabel * lab);
+void content_changed_mlabel(LSKManagedLabel * lab);
+void set_content_mlabel(LSKManagedLabel * lab, char* content);
 
 #endif

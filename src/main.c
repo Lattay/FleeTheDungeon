@@ -10,8 +10,7 @@
 #define IMPL_MAIN_LOOP
 #include "main.h"
 
-int main(void)
-{
+int main(void) {
   // Initialization
   //--------------------------------------------------------------------------------------
 
@@ -27,11 +26,11 @@ int main(void)
   state->init(&game_data);
   bool window_should_close = false;
 
-  SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
+  SetTargetFPS(60); // Set our game to run at 60 frames-per-second
   //---------------------------------------------------------------------------------------
 
   // Main game loop
-  while (!window_should_close)    // Detect window close button or ESC key
+  while (!window_should_close)  // Detect window close button or ESC key
   {
     // Draw
     //----------------------------------------------------------------------------------
@@ -45,18 +44,18 @@ int main(void)
     //----------------------------------------------------------------------------------
     new_state = state->update();
 
-    if(new_state != state->name){
-      if(state->suspend){
+    if (new_state != state->name) {
+      if (state->suspend) {
         state->suspend();
       }
-      if(new_state != CLOSE){
-        for(int i = 0; i < STATE_NUM; i++){
-          if(new_state == states[i]->name){
+      if (new_state != CLOSE) {
+        for (int i = 0; i < STATE_NUM; i++) {
+          if (new_state == states[i]->name) {
             state = states[i];
             break;
           }
         }
-        if(state->init){
+        if (state->init) {
           state->init(&game_data);
         }
       }
@@ -67,7 +66,7 @@ int main(void)
 
   // De-Initialization
   //--------------------------------------------------------------------------------------
-  CloseWindow();        // Close window and OpenGL context
+  CloseWindow();  // Close window and OpenGL context
   //--------------------------------------------------------------------------------------
 
   return 0;
