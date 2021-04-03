@@ -21,7 +21,6 @@ int main(void) {
 
   GameData game_data;
   game_data.max_level = 3;
-  init_camera(&game_data.cam, 600, 600);
 
   state->init(&game_data);
   bool window_should_close = false;

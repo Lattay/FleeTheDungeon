@@ -10,7 +10,8 @@ static const int H = 600;
 int ox = 50;
 int oy = 70;
 
-static Vector2 origin = { 0, 0 };
+static const Vector2 origin = { 0, 0 };
+static const Color background = {28, 17, 23, 255};
 
 Rectangle enemy_spites[4] = {
   {16, 160, 16, 16},
@@ -18,6 +19,11 @@ Rectangle enemy_spites[4] = {
   {32, 192, 16, 16},
   {80, 160, 16, 16},
 };
+
+Rectangle wall_sprite = {32, 240, 16, 16};
+Rectangle floor_sprite = {64, 240, 16, 16};
+Rectangle stair_up_sprite = {80, 240, 16, 16};
+Rectangle stair_down_sprite = {96, 240, 16, 16};
 
 typedef enum {
   IDLE = 0,
@@ -367,7 +373,7 @@ void play_draw() {
   ClearBackground(RAYWHITE);
 
   /* draw background */
-  DrawRectangle(ox, oy, 500, 500, BLUE);
+  DrawRectangle(ox, oy, 500, 500, background);
   draw_label(data->hints);
   draw_label(data->turn_info);
   /* draw level */
@@ -377,24 +383,19 @@ void play_draw() {
   int y0 = 0; // max(data->y - h / 2, 0);
   for (int x = x0, i = 0; i < w; ++x, ++i) {
     for (int y = y0, j = 0; j < h; ++y, ++j) {
+      Rectangle tile = {ox + i * 50 - data->map_ox, oy + j * 50 - data->map_oy, 50, 50};
       switch (get_tile(&data->level, x, y)) {
         case WALL:
-          DrawRectangle(ox + i * 50 - data->map_ox, oy + j * 50 - data->map_oy,
-                        50, 50, RED);
+          DrawTexturePro(data->atlas, wall_sprite, tile, origin, 0, WHITE);
           break;
         case FLOOR:
-          DrawRectangle(ox + 2 + i * 50 - data->map_ox,
-                        oy + 2 + j * 50 - data->map_oy, 46, 46, GREEN);
+          DrawTexturePro(data->atlas, floor_sprite, tile, origin, 0, WHITE);
           break;
         case DOOR:
-          DrawRectangle(ox + 2 + i * 50 - data->map_ox,
-                        oy + j * 50 - data->map_oy, 46, 50, YELLOW);
+          DrawTexturePro(data->atlas, stair_up_sprite, tile, origin, 0, WHITE);
           break;
         case LOCKED_DOOR:
-          DrawRectangle(ox + 2 + i * 50 - data->map_ox,
-                        oy + j * 50 - data->map_oy, 46, 50, YELLOW);
-          DrawRectangle(ox + 2 + i * 50 - data->map_ox,
-                        oy + j * 50 - data->map_oy + 20, 46, 10, BLACK);
+          DrawTexturePro(data->atlas, stair_down_sprite, tile, origin, 0, WHITE);
           break;
         case BLOCK:
           DrawRectangle(ox + 2 + i * 50 - data->map_ox,

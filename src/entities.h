@@ -10,7 +10,6 @@ typedef struct {
   int ny;
   int dir_x;
   int dir_y;
-  int ax, ay, aw, ah;
 } Enemy;
 
 void enemy_try_move(Enemy* e, bool first_try);

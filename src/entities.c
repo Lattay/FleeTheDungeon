@@ -3,8 +3,8 @@
 #include "entities.h"
 
 #define ENTITIES_IMPL
-#include "slime.h"
-#include "zombie.h"
+#include "masked.h"
+#include "shaman.h"
 
 typedef struct {
   void (*try_move)(int x, int y, int dir_x, int dir_y, int* nx, int* ny);
@@ -12,8 +12,8 @@ typedef struct {
 } EnemyType;
 
 static EnemyType enemy_types[] = {
-  {.try_move = &slime_try_move,.change_dir = &slime_change_dir},
-  {.try_move = &zombie_try_move,.change_dir = &zombie_change_dir},
+  {.try_move = &masked_try_move,.change_dir = &masked_change_dir},
+  {.try_move = &shaman_try_move,.change_dir = &shaman_change_dir},
 };
 
 void enemy_try_move(Enemy* e, bool first_try) {

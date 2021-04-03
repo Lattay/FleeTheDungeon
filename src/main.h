@@ -3,7 +3,6 @@
 #include <stdbool.h>
 #include <math.h>
 #include "lsk_basics.h"
-#include "lsk_camera.h"
 
 typedef enum {
   MENU = 0,
@@ -18,7 +17,6 @@ typedef enum {
 } StateName;
 
 typedef struct {
-  LSKCamera cam;
   int next_level;
   int max_level;
 } GameData;
