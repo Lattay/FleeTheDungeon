@@ -2,7 +2,7 @@
 #define LSK_DEATH_H
 #include "main.h"
 
-void death_init(GameData * data);
+void death_init(GameData* data);
 void death_draw(void);
 StateName death_update(void);
 void death_suspend(void);

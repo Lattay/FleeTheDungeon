@@ -2,7 +2,7 @@
 #define LSK_END_H
 #include "main.h"
 
-void end_init(GameData * data);
+void end_init(GameData* data);
 void end_draw(void);
 StateName end_update(void);
 void end_suspend(void);

@@ -10,10 +10,10 @@ void state_name_suspend(void);
 #ifdef IMPL_MAIN_LOOP
 GameState state_name_state = {
   STATE_NAME,
-  &state_name_init,  // Optional, can be NULL
+  &state_name_init, // Optional, can be NULL
   &state_name_update,
   &state_name_draw,
-  &state_name_suspend  // Optional, can be NULL
+  &state_name_suspend // Optional, can be NULL
 };
 #endif
 #endif

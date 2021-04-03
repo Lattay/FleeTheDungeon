@@ -7,7 +7,7 @@ static Rectangle box = { 20, 20, 560, 560 };
 
 static char* text;
 
-void credit_init(GameData * data) {
+void credit_init(GameData* data) {
   FILE* f = fopen("credit.txt", "r");
   fseek(f, 0, SEEK_END);
   int length = ftell(f);

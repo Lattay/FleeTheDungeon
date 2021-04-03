@@ -17,7 +17,7 @@ inline static int button_y(int i) {
   return 80 + 50 * ((int)(i / 4));
 }
 
-void level_menu_init(GameData * data) {
+void level_menu_init(GameData* data) {
   state.gdata = data;
   state.n_levels = data->max_level;
   for (int i = 0; i < state.n_levels; ++i) {

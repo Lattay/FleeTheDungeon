@@ -2,7 +2,7 @@
 #define LSK_MENU_H
 #include "main.h"
 
-void menu_init(GameData * data);
+void menu_init(GameData* data);
 void menu_draw(void);
 StateName menu_update(void);
 void menu_suspend(void);

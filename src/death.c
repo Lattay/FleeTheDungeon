@@ -6,7 +6,7 @@ typedef struct {
 
 static StateData data;
 
-void death_init(GameData * d) {
+void death_init(GameData* d) {
   data.start = GetTime();
 }
 

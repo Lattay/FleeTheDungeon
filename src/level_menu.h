@@ -2,7 +2,7 @@
 #define LEVEL_MENU_H
 #include "main.h"
 
-void level_menu_init(GameData * data);
+void level_menu_init(GameData* data);
 void level_menu_draw(void);
 StateName level_menu_update(void);
 void level_menu_suspend(void);

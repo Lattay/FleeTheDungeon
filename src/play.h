@@ -3,7 +3,7 @@
 #include <raylib.h>
 #include "main.h"
 
-void play_init(GameData * data);
+void play_init(GameData* data);
 StateName play_update();
 void play_draw();
 void play_suspend();

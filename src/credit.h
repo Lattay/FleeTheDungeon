@@ -2,7 +2,7 @@
 #define LSK_CREDIT_H
 #include "main.h"
 
-void credit_init(GameData * data);
+void credit_init(GameData* data);
 void credit_draw(void);
 StateName credit_update(void);
 void credit_suspend(void);

@@ -11,7 +11,7 @@ typedef struct {
 
 static MenuData* data;
 
-void menu_init(GameData * gdata) {
+void menu_init(GameData* gdata) {
   data = malloc(sizeof(MenuData));
   init_button(&data->play_button, "Play", 300, 400, 20);
   init_button(&data->about_button, "About this game", 300, 500, 20);

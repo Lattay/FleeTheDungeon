@@ -25,7 +25,7 @@ typedef struct {
 
 typedef struct {
   StateName name;
-  void (*init)(GameData * data);  // optional
+  void (*init)(GameData* data); // optional
     StateName(*update) (void);
   void (*draw)(void);
   void (*suspend)(void);  // optional

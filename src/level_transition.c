@@ -2,7 +2,7 @@
 
 int next;
 
-void level_transition_init(GameData * data) {
+void level_transition_init(GameData* data) {
   if (data->next_level > data->max_level) {
     next = -1;
   } else {

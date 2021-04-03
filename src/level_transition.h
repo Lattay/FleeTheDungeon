@@ -2,7 +2,7 @@
 #define LSK_LEVEL_TRANSITION_H
 #include "main.h"
 
-void level_transition_init(GameData * data);
+void level_transition_init(GameData* data);
 void level_transition_draw(void);
 StateName level_transition_update(void);
 void level_transition_suspend(void);

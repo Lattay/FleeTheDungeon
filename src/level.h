@@ -19,7 +19,7 @@ typedef struct {
   Tile* map;
 } Level;
 
-int level_load(const char* filename, Level * data, Enemy ** enemies,
+int level_load(const char* filename, Level* data, Enemy** enemies,
                int* lenght, int* px, int* py);
 const char* level_msg_error(int code);
 #endif

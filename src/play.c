@@ -10,6 +10,15 @@ static const int H = 600;
 int ox = 50;
 int oy = 70;
 
+static Vector2 origin = { 0, 0 };
+
+Rectangle enemy_spites[4] = {
+  {16, 160, 16, 16},
+  {80, 160, 16, 16},
+  {32, 192, 16, 16},
+  {80, 160, 16, 16},
+};
+
 typedef enum {
   IDLE = 0,
   RUN,
@@ -34,6 +43,7 @@ typedef struct {
   Enemy* enemies;
 
   /* general data */
+  Texture2D atlas;
   Level level;
   PlayState state;
   int turn;
@@ -44,11 +54,11 @@ typedef struct {
   int map_oy;
 } PlayData;
 
-static inline Tile get_tile(Level * lvl, int x, int y) {
+static inline Tile get_tile(Level* lvl, int x, int y) {
   return lvl->map[x + lvl->w * y];
 }
 
-static inline void set_tile(Level * lvl, int x, int y, Tile t) {
+static inline void set_tile(Level* lvl, int x, int y, Tile t) {
   lvl->map[x + lvl->w * y] = t;
 }
 
@@ -82,7 +92,12 @@ static void load_level(int level_num) {
   TraceLog(LOG_INFO, TextFormat("Successfully loaded level %d", level_num));
 }
 
-void play_init(GameData * gdata) {
+static Texture2D load_texture() {
+  Texture2D texture = LoadTexture("assets/0x72_16x16DungeonTileset.v3.png");
+  return texture;
+}
+
+void play_init(GameData* gdata) {
 
   SetTraceLogLevel(LOG_DEBUG);
 
@@ -95,6 +110,7 @@ void play_init(GameData * gdata) {
   set_offset();
 
   /* setup general data */
+  data->atlas = load_texture();
   data->anim_t = 0;
   data->state = IDLE;
   data->turn = 0;
@@ -120,6 +136,7 @@ void play_suspend() {
 static void transit(PlayState new_state) {
   TraceLog(LOG_DEBUG, "transit from %d to %d", data->state, new_state);
   data->state = new_state;
+  data->anim_t = 0; /* reset the anim timer when changing state */
 }
 
 static bool valid_pos(int nx, int ny, bool door_is_valid, bool player_is_valid) {
@@ -142,6 +159,13 @@ static bool valid_pos(int nx, int ny, bool door_is_valid, bool player_is_valid) 
 }
 
 StateName play_update() {
+  bool cycle = false;
+  if (data->anim_t >= 1.0) {
+    cycle = true;
+    data->anim_t = 0;
+  } else {
+    data->anim_t += 0.05;
+  }
   switch (data->state) {
     case IDLE:
     {
@@ -194,27 +218,21 @@ StateName play_update() {
     }
     case RUN:
       /* play run animation up to the target, then transit to ENEMY_TURN */
-      if (data->anim_t >= 1.0) {
+      if (cycle) {
         data->x = data->nx;
         data->y = data->ny;
-        data->anim_t = 0;
         if (get_tile(&data->level, data->x, data->y) == DOOR) {
           transit(WIN);
         } else {
           transit(ENEMY_TURN);
         }
-      } else {
-        data->anim_t += 0.1;
       }
       break;
     case CREATE_BLOCK:
       /* play create_block animation, then transit to ENEMY_TURN */
-      if (data->anim_t >= 1.0) {
+      if (cycle) {
         set_tile(&data->level, data->nx, data->ny, BLOCK);
-        data->anim_t = 0;
         transit(ENEMY_TURN);
-      } else {
-        data->anim_t += 0.1;
       }
       break;
     case ENEMY_TURN:
@@ -244,7 +262,7 @@ StateName play_update() {
     case ENEMY_TURN_ANIM:
     {
       /* play move animation for all enemies up to there targets, then transit to ENEMY_TURN */
-      if (data->anim_t >= 1.0) {
+      if (cycle) {
         bool death = false;
         for (int i = 0; i < data->n_enemies; ++i) {
           Enemy* e = &data->enemies[i];
@@ -254,14 +272,11 @@ StateName play_update() {
             death = true;
           }
         }
-        data->anim_t = 0;
         if (death) {
           transit(DIE);
         } else {
           transit(IDLE);
         }
-      } else {
-        data->anim_t += 0.1;
       }
       break;
     }
@@ -277,14 +292,75 @@ StateName play_update() {
   return PLAY;
 }
 
-static void draw_idle() {
-  DrawCircle(ox + data->x * 50 - data->map_ox + 25,
-             oy + data->y * 50 - data->map_oy + 25, 20, GOLD);
+static const float wobble_freq = 1.5;
+static const float squash_freq = 1.0;
+
+static void draw_player(bool move) {
+  int x, y;
+  float angle;
+  int dy = 0;
+  int dh = 0;
+  bool flip = false;
+  if (move) {
+    x = lerp(data->x * 50, data->nx * 50, data->anim_t) - data->map_ox;
+    y = lerp(data->y * 50, data->ny * 50, data->anim_t) - data->map_oy;
+    angle = 10 * sin(data->anim_t * 6.283 * wobble_freq);
+    flip = data->nx < data->x;
+  } else {
+    x = data->x * 50 - data->map_ox;
+    y = data->y * 50 - data->map_oy;
+    angle = 0;
+    dh = 4 * sin(data->anim_t * 6.283 * squash_freq);
+    dy = -dh;
+  }
+  Rectangle source = { 64, 128, 16, 16, };
+  Rectangle dest = {
+    ox + x + 25,
+    oy + y + 40 + dy,
+    32, 32 + dh,
+  };
+
+  if (flip) {
+    source.width *= -1;
+  }
+
+  Vector2 bottom = { 16, 32 };
+
+  DrawTexturePro(data->atlas, source, dest, bottom, angle, WHITE);
 }
 
-static void draw_enemy(Enemy * e) {
-  DrawCircle(ox + e->x * 50 - data->map_ox + 25,
-             oy + e->y * 50 - data->map_oy + 25, 20, PURPLE);
+static void draw_enemy(Enemy* e, bool move) {
+  int x, y;
+  float angle;
+  int dy = 0;
+  int dh = 0;
+  bool flip = false;
+  if (move) {
+    x = lerp(e->x * 50, e->nx * 50, data->anim_t) - data->map_ox;
+    y = lerp(e->y * 50, e->ny * 50, data->anim_t) - data->map_oy;
+    angle = 10 * sin(data->anim_t * 6.283 * wobble_freq);
+    flip = e->nx > e->x;
+  } else {
+    x = e->x * 50 - data->map_ox;
+    y = e->y * 50 - data->map_oy;
+    angle = 0;
+    dh = 4 * sin(data->anim_t * 6.283 * squash_freq);
+    dy = -dh;
+  }
+  Rectangle source = enemy_spites[e->type];
+  Rectangle dest = {
+    ox + x + 25,
+    oy + y + 40 + dy,
+    2 * source.width, 2 * source.height + dh,
+  };
+
+  if (flip) {
+    source.width *= -1;
+  }
+
+  Vector2 bottom = { 16, 32 };
+
+  DrawTexturePro(data->atlas, source, dest, bottom, angle, WHITE);
 }
 
 void play_draw() {
@@ -330,37 +406,32 @@ void play_draw() {
 
   if (data->state == ENEMY_TURN || data->state == ENEMY_TURN_ANIM) {
     /* draw idle player */
-    draw_idle();
+    draw_player(false);
     /* draw enemy moving */
     for (int i = 0; i < data->n_enemies; ++i) {
-      Enemy* e = &data->enemies[i];
-      int x = lerp(e->x * 50, e->nx * 50, data->anim_t) - data->map_ox;
-      int y = lerp(e->y * 50, e->ny * 50, data->anim_t) - data->map_oy;
-      DrawCircle(ox + x + 25, oy + y + 25, 20, PURPLE);
+      draw_enemy(&data->enemies[i], true);
     }
 
   } else {
     /* draw idle monsters */
     for (int i = 0; i < data->n_enemies; ++i) {
-      draw_enemy(&data->enemies[i]);
+      draw_enemy(&data->enemies[i], false);
     }
     switch (data->state) {
       case IDLE:
         /* draw idle player */
-        draw_idle();
+        draw_player(false);
         break;
       case RUN:
       {
         /* draw run animation */
-        int x = lerp(data->x * 50, data->nx * 50, data->anim_t) - data->map_ox;
-        int y = lerp(data->y * 50, data->ny * 50, data->anim_t) - data->map_oy;
-        DrawCircle(ox + x + 25, oy + y + 25, 20, GOLD);
+        draw_player(true);
         break;
       }
       case CREATE_BLOCK:
       {
         /* draw idle player */
-        draw_idle();
+        draw_player(false);
         /* draw create_block animation */
         int h = lerp(0, 46, data->anim_t);
         DrawRectangle(ox + 2 + data->nx * 50 - data->map_ox,

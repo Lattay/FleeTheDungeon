@@ -5,7 +5,7 @@
 static LSKButton quit_button;
 static LSKButton menu_button;
 
-void end_init(GameData * data) {
+void end_init(GameData* data) {
   init_button(&quit_button, "Exit game", 300, 200, 20);
   init_button(&menu_button, "Go back to menu", 300, 400, 20);
 }

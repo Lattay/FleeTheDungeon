@@ -13,7 +13,7 @@ const char* level_msg_error(int code) {
   }
 }
 
-static void eat_spaces(FILE * f) {
+static void eat_spaces(FILE* f) {
   int c;
   do {
     c = fgetc(f);
@@ -23,7 +23,7 @@ static void eat_spaces(FILE * f) {
   }
 }
 
-int level_load(const char* filename, Level * data, Enemy ** enemies,
+int level_load(const char* filename, Level* data, Enemy** enemies,
                int* length, int* px, int* py) {
   int res;
   FILE* f = fopen(filename, "r");
